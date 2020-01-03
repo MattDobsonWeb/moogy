@@ -6,6 +6,7 @@ const { Wit } = require('node-wit');
 const handleMessage = require('./helpers/handleMessage');
 const saveReply = require('./helpers/saveReply');
 const mongoose = require('mongoose');
+const path = require('path');
 
 const client = new Wit({ accessToken: process.env.WIT_KEY });
 
@@ -37,11 +38,17 @@ io.on('connection', socket => {
 
   socket.on('message', msg => {
     if (awaitingUserResponse) {
-      saveReply(originalEntities, msg.message, res => {
-        io.emit('reply', res.message);
-        awaitingUserResponse = false;
-        originalEntities = {};
-      });
+      client
+        .message(msg.message)
+        .then(data => {
+          saveReply(originalEntities, data, res => {
+            io.emit('reply', res.message);
+            io.emit('sentiment', res.sentiment);
+            awaitingUserResponse = false;
+            originalEntities = {};
+          });
+        })
+        .catch(console.error);
     } else {
       client
         .message(msg.message)
@@ -53,6 +60,7 @@ io.on('connection', socket => {
             }
 
             io.emit('reply', res.message);
+            io.emit('sentiment', res.sentiment);
             console.log('Awaiting reply - ' + res.awaitingReply);
           });
         })

@@ -62,17 +62,69 @@ class Chatbox extends Component {
     });
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.suggested !== this.props.suggested) {
+      this.state.client.message(this.props.suggested);
+
+      let message = {
+        sent: this.props.suggested,
+        reply: ''
+      };
+
+      this.setState({
+        chatHistory: [...this.state.chatHistory, message],
+        message: ''
+      });
+    }
+  }
+
   render() {
-    console.log(this.state.chatHistory);
+    const { chatHistory } = this.state;
+
+    const latestMessages = chatHistory.slice(-4);
+
     return (
       <div className="chatbox">
         <div className="messages">
-          {this.state.chatHistory.map(message => (
-            <div className="single-message">
-              <p>{message.sent}</p>
-              <p>{message.reply ? message.reply : '...'}</p>
+          {chatHistory.length < 1 && (
+            <div className="no-messages">
+              <p>
+                Moogy is an opinionated Robot, all of Moogy's opinions are based
+                on interactions with other users, ask him about a topic or a
+                person!
+              </p>
+              <p>
+                If you don't know what to ask, select a suggested message from
+                the bottom!
+              </p>
+
+              <p>
+                <strong>
+                  Disclaimer: Most of Moogy's responses come from user
+                  interaction, therefore, some responses may be innapropriate
+                </strong>
+              </p>
             </div>
-          ))}
+          )}
+
+          {latestMessages.map((message, index) => {
+            return (
+              <div
+                className={
+                  index === latestMessages.length - 1
+                    ? `single-convo latest`
+                    : `single-convo`
+                }
+                key={index}
+                style={{ opacity: (index + 1) / latestMessages.length }}
+              >
+                <p className="sent">You: {message.sent}</p>
+                <p className="reply">
+                  Moogy: {message.reply ? message.reply : '...'}
+                </p>
+              </div>
+            );
+          })}
         </div>
 
         <div className="text-box-wrapper">
@@ -82,6 +134,7 @@ class Chatbox extends Component {
               name="message"
               value={this.state.message}
               onChange={this.onChange}
+              autoComplete="off"
             />
             <button className="btn-main" onClick={this.onSendMessage}>
               Send

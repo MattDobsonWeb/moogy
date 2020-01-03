@@ -3,9 +3,9 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 // create opinion schema
-const OpinionPersonSchema = new Schema(
+const OpinionInanimateSchema = new Schema(
   {
-    names: [{ type: String }],
+    values: [{ type: String }],
     replies: [
       {
         message: {
@@ -21,7 +21,7 @@ const OpinionPersonSchema = new Schema(
 );
 
 // export model
-module.exports = OpinionPerson = mongoose.model(
-  'OpinionPerson',
-  OpinionPersonSchema
+module.exports = OpinionInanimate = mongoose.model(
+  'OpinionInanimate',
+  OpinionInanimateSchema
 );

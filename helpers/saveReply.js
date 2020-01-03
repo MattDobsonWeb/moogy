@@ -1,8 +1,23 @@
 // import models
 const OpinionPerson = require('../models/OpinionPerson');
+const OpinionInanimate = require('../models/OpinionInanimate');
 
-module.exports = function saveReply({ entities }, ogMessage, data) {
+module.exports = function saveReply({ entities }, witData, data) {
   let intent;
+  let sentiment;
+
+  if (witData._text.includes('?')) {
+    return data({
+      success: false,
+      message:
+        "I didn't save your reply because it looks like you were trying to ask me a question.",
+      sentiment: 'positive'
+    });
+  }
+
+  if (witData.entities.sentiment) {
+    sentiment = witData.entities.sentiment[0].value;
+  }
 
   const getIntent = entities => {
     return entities.intent[0].value;
@@ -19,26 +34,68 @@ module.exports = function saveReply({ entities }, ogMessage, data) {
         if (currentPerson) {
           OpinionPerson.findOneAndUpdate(
             { names: person },
-            { $push: { replies: ogMessage } },
+            {
+              $push: {
+                replies: { message: witData._text, sentiment: sentiment }
+              }
+            },
             { new: true }
           ).then(res => {
             data({
               success: true,
               message:
-                "Thanks for your opinion, I've saved it to my database to help me learn"
+                "Thanks for your opinion, I've saved it to my database to help me learn",
+              sentiment: sentiment
             });
           });
         } else {
           const newPerson = new OpinionPerson({
             names: [`${entities.person[0].value.toLowerCase()}`],
-            replies: [`${ogMessage}`]
+            replies: [{ message: witData._text, sentiment: sentiment }]
           });
 
           newPerson.save().then(res => {
             data({
               success: true,
               message:
-                "Thanks for your opinion, I've saved it to my database to help me learn"
+                "Thanks for your opinion, I've saved it to my database to help me learn",
+              sentiment: sentiment
+            });
+          });
+        }
+      });
+    } else if (entities.activity) {
+      let inanimate = entities.activity[0].value.toLowerCase();
+      OpinionInanimate.findOne({ values: inanimate }).then(currentInanimate => {
+        if (currentInanimate) {
+          OpinionInanimate.findOneAndUpdate(
+            { values: inanimate },
+            {
+              $push: {
+                replies: { message: witData._text, sentiment: sentiment }
+              }
+            },
+            { new: true }
+          ).then(res => {
+            data({
+              success: true,
+              message:
+                "Thanks for your opinion, I've saved it to my database to help me learn",
+              sentiment: sentiment
+            });
+          });
+        } else {
+          const newPerson = new OpinionInanimate({
+            values: [`${entities.activity[0].value.toLowerCase()}`],
+            replies: [{ message: witData._text, sentiment: sentiment }]
+          });
+
+          newPerson.save().then(res => {
+            data({
+              success: true,
+              message:
+                "Thanks for your opinion, I've saved it to my database to help me learn",
+              sentiment: sentiment
             });
           });
         }

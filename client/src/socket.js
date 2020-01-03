@@ -15,9 +15,14 @@ export default function() {
     socket.on('reply', reply);
   }
 
+  function registerSentiment(sentiment) {
+    socket.on('sentiment', sentiment);
+  }
+
   return {
     message,
     registerHandler,
-    registerReply
+    registerReply,
+    registerSentiment
   };
 }
