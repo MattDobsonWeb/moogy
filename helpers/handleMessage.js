@@ -205,7 +205,7 @@ const getOpinion = object => {
         ? `opinions on this data point, most are ${
             positiveCount >= negativeCount ? 'positive' : 'negative'
           }.`
-        : `opinion on this data point, it is ${
+        : `opinion on this data point, it's ${
             positiveCount >= negativeCount ? 'positive' : 'negative'
           }.`
     } What do you think?`,

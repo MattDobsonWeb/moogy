@@ -119,9 +119,11 @@ class Chatbox extends Component {
                 style={{ opacity: (index + 1) / latestMessages.length }}
               >
                 <p className="sent">You: {message.sent}</p>
-                <p className="reply">
-                  Moogy: {message.reply ? message.reply : '...'}
-                </p>
+                {message.reply ? (
+                  <p className="reply">Moogy: {message.reply}</p>
+                ) : (
+                  <p className="reply loading">...</p>
+                )}
               </div>
             );
           })}
