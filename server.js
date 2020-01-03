@@ -72,7 +72,6 @@ io.on('connection', socket => {
 // serve static assets if in production
 if (process.env.NODE_ENV === 'production') {
   // Set static folder
-  app.use('/subdomain', express.static('subdomain/build'));
   app.use(express.static('client/build'));
 
   app.get('*', (req, res) => {
