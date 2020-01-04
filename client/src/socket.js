@@ -1,7 +1,14 @@
 const io = require('socket.io-client');
 
 export default function() {
-  const socket = io.connect('https://moogy.herokuapp.com');
+  let socket;
+  if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+    // dev code
+    socket = io.connect('http://localhost:5000');
+  } else {
+    // production code
+    socket = io.connect('https://moogy.herokuapp.com');
+  }
 
   function message(msg) {
     socket.emit('message', { message: msg });
