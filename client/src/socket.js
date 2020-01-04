@@ -1,7 +1,7 @@
 const io = require('socket.io-client');
 
 export default function() {
-  const socket = io.connect('http://moogy.herokuapp.com');
+  const socket = io.connect('https://moogy.herokuapp.com');
 
   function message(msg) {
     socket.emit('message', { message: msg });
