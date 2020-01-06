@@ -11,6 +11,9 @@ const path = require('path');
 
 const client = new Wit({ accessToken: process.env.WIT_KEY });
 
+// import api routes
+const data = require('./routes/api/data');
+
 // db config
 const db = process.env.MONGO_URI;
 
@@ -69,6 +72,9 @@ io.on('connection', socket => {
     }
   });
 });
+
+// use api routes
+app.use('/api/data', data);
 
 // serve static assets if in production
 if (process.env.NODE_ENV === 'production') {

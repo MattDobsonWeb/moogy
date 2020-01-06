@@ -1,0 +1,34 @@
+.data-page {
+  .data-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+
+    .data-point {
+      .replies {
+        ul {
+          li {
+            .pill {
+              padding: 3px;
+              font-size: 0.7rem;
+              color: $white;
+              font-weight: 700;
+              border-radius: 5px;
+
+              &.positive {
+                background-color: green;
+              }
+
+              &.neutral {
+                background-color: orange;
+              }
+
+              &.negative {
+                background-color: red;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

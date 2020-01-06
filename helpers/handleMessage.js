@@ -3,9 +3,9 @@ const responses = require('./responses');
 // import models
 const OpinionPerson = require('../models/OpinionPerson');
 const OpinionInanimate = require('../models/OpinionInanimate');
+const Favourite = require('../models/Favourite');
 
 module.exports = function handleMessage({ entities }, data) {
-  console.log(entities);
   let intent, message;
   let awaitingReply = false;
 
@@ -19,7 +19,6 @@ module.exports = function handleMessage({ entities }, data) {
 
   const greetings = firstEntityValue(entities, 'greetings');
   const getMood = firstEntityValue(entities, 'get_mood');
-  const opinion = firstEntityValue(entities, 'opinion');
 
   if (getMood) {
     let dataCount = 0;
@@ -50,19 +49,33 @@ module.exports = function handleMessage({ entities }, data) {
           });
         });
 
-        if (positiveCount >= negativeCount) {
-          data({
-            message: `I have ${dataCount} user opinions stored, with the majority of the opinions being positive. So I'm a happy robot!`,
-            awaitingReply,
-            sentiment: 'positive'
+        Favourite.find().then(favourites => {
+          favourites.map(favourite => {
+            favourite.replies.map(reply => {
+              dataCount++;
+
+              if (reply.sentiment === 'positive') {
+                positiveCount++;
+              } else if (reply.sentiment === 'negative') {
+                negativeCount--;
+              }
+            });
+
+            if (positiveCount >= negativeCount) {
+              data({
+                message: `I have ${dataCount} user opinions stored, with the majority of the opinions being positive. So I'm a happy robot!`,
+                awaitingReply,
+                sentiment: 'positive'
+              });
+            } else {
+              data({
+                message: `I have ${dataCount} user opinions stored, with the majority of the opinions being negative. So I'm a bit of a Negative Nelly!`,
+                awaitingReply,
+                sentiment: 'negative'
+              });
+            }
           });
-        } else {
-          data({
-            message: `I have ${dataCount} user opinions stored, with the majority of the opinions being negative. So I'm a bit of a Negative Nelly!`,
-            awaitingReply,
-            sentiment: 'negative'
-          });
-        }
+        });
       });
     });
   } else if (greetings) {
@@ -129,6 +142,41 @@ module.exports = function handleMessage({ entities }, data) {
       message = defaultReply(sentiment);
       data({ message, awaitingReply, sentiment });
     }
+  } else if (intent === 'favourite') {
+    // if we can't understand the activity
+    if (!entities.activity) {
+      return data({
+        message:
+          "Sorry, I can see you're looking for a favourite, but I can't understand what on. I'm still learning",
+        awaitingReply: false,
+        sentiment: 'negative'
+      });
+    }
+
+    // if an activity has been found
+    Favourite.findOne({ values: entities.activity[0].value }).then(
+      favourite => {
+        if (!favourite) {
+          return data({
+            message:
+              "I don't currently have an opinion on this, what's your opinion?",
+            awaitingReply: true,
+            sentiment: 'neutral'
+          });
+        }
+
+        const random = Math.floor(Math.random() * favourite.replies.length);
+        const count = favourite.replies.length;
+
+        return data({
+          message: `${favourite.replies[random].message}. I have ${
+            count > 1 ? `${count} opinions` : `${count} opinion`
+          } on this topic. What do you think?`,
+          awaitingReply: true,
+          sentiment: favourite.replies[random].sentiment
+        });
+      }
+    );
   } else {
     message = defaultReply(sentiment);
     data({ message, awaitingReply, sentiment });

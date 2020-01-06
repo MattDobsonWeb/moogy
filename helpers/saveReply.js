@@ -1,6 +1,7 @@
 // import models
 const OpinionPerson = require('../models/OpinionPerson');
 const OpinionInanimate = require('../models/OpinionInanimate');
+const Favourite = require('../models/Favourite');
 
 module.exports = function saveReply({ entities }, witData, data) {
   let intent;
@@ -101,5 +102,40 @@ module.exports = function saveReply({ entities }, witData, data) {
         }
       });
     }
+  } else if (intent === 'favourite') {
+    let inanimate = entities.activity[0].value.toLowerCase();
+
+    Favourite.findOne({ values: inanimate }).then(currentFavourite => {
+      if (currentFavourite) {
+        Favourite.findOneAndUpdate(
+          { values: inanimate },
+          {
+            $push: {
+              replies: { message: witData._text, sentiment: sentiment }
+            }
+          },
+          { new: true }
+        ).then(res => {
+          return data({
+            success: true,
+            message: "Thanks for your opinion, I've saved it to my database.",
+            sentiment: sentiment
+          });
+        });
+      } else {
+        const newFavourite = new Favourite({
+          values: [`${inanimate}`],
+          replies: [{ message: witData._text, sentiment: sentiment }]
+        });
+
+        newFavourite.save().then(res => {
+          return data({
+            success: true,
+            message: "Thanks for your opinion, I've saved it to my database.",
+            sentiment: sentiment
+          });
+        });
+      }
+    });
   }
 };
