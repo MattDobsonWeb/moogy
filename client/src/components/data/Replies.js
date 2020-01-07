@@ -18,13 +18,13 @@ export default class Replies extends Component {
   }
 
   render() {
-    const { replies } = this.props;
+    const { replies, hideSentiment } = this.props;
     const { size } = this.state;
 
     return (
       <div className="replies">
         <h3 className="heading">
-          User Opinions and Sentiment{' '}
+          {!hideSentiment ? `User Opinions and Sentiment` : `User Opinions`}{' '}
           <span className="pill light">{replies.length}</span>
         </h3>
 
@@ -32,15 +32,17 @@ export default class Replies extends Component {
           {replies.slice(0, size).map((reply, index) => (
             <li key={index}>
               {reply.message}{' '}
-              <span className={`pill ${reply.sentiment}`}>
-                {reply.sentiment === 'positive'
-                  ? ':)'
-                  : reply.sentiment === 'neutral'
-                  ? ':|'
-                  : reply.sentiment === 'negative'
-                  ? ':('
-                  : null}
-              </span>
+              {!hideSentiment && (
+                <span className={`pill ${reply.sentiment}`}>
+                  {reply.sentiment === 'positive'
+                    ? ':)'
+                    : reply.sentiment === 'neutral'
+                    ? ':|'
+                    : reply.sentiment === 'negative'
+                    ? ':('
+                    : null}
+                </span>
+              )}
             </li>
           ))}
 

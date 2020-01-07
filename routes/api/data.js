@@ -11,6 +11,79 @@ const Favourite = require('../../models/Favourite');
 // @access  Public
 router.get('/test', (req, res) => res.json({ msg: 'Data Route Works' }));
 
+// @route   GET api/data/totals
+// @desc    Get data totals
+// @access  Public
+router.get('/totals', (req, res) => {
+  let dataCount = 0,
+    entryCount = 0,
+    positiveCount = 0,
+    neutralCount = 0,
+    negativeCount = 0;
+
+  OpinionInanimate.find().then(inanimate => {
+    inanimate.map(opinion => {
+      dataCount++;
+      opinion.replies.map(reply => {
+        entryCount++;
+        if (reply.sentiment === 'positive') {
+          positiveCount++;
+        } else if (reply.sentiment === 'negative') {
+          negativeCount++;
+        } else if (reply.sentiment === 'neutral') {
+          neutralCount++;
+        }
+      });
+    });
+
+    OpinionPerson.find().then(people => {
+      people.map(opinion => {
+        dataCount++;
+        opinion.replies.map(reply => {
+          entryCount++;
+          if (reply.sentiment === 'positive') {
+            positiveCount++;
+          } else if (reply.sentiment === 'negative') {
+            negativeCount++;
+          } else if (reply.sentiment === 'neutral') {
+            neutralCount++;
+          }
+        });
+      });
+
+      Favourite.find().then(favourites => {
+        favourites.map(favourite => {
+          dataCount++;
+
+          entryCount += favourite.replies.length;
+        });
+
+        let finalSentiment;
+
+        if (positiveCount >= negativeCount && positiveCount >= neutralCount) {
+          finalSentiment = 'positive';
+        } else if (
+          negativeCount > positiveCount &&
+          negativeCount > neutralCount
+        ) {
+          finalSentiment = 'negative';
+        } else if (
+          neutralCount > positiveCount &&
+          neutralCount > negativeCount
+        ) {
+          finalSentiment = 'neutral';
+        }
+
+        return res.json({
+          dataCount: dataCount,
+          entryCount: entryCount,
+          sentiment: finalSentiment
+        });
+      });
+    });
+  });
+});
+
 // @route   GET api/data/opinions/people
 // @desc    Get opinion data on people
 // @access  Public

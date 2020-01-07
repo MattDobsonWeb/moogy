@@ -4,6 +4,38 @@
   margin: 0 auto;
   padding: 30px 0;
 
+  .total-data {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    .total-section {
+      text-align: center;
+
+      .heading {
+        margin: 0;
+        margin-bottom: 20px;
+      }
+
+      .value {
+        margin: 0;
+        font-size: 3rem;
+        font-weight: 700;
+
+        .positive {
+          color: green;
+        }
+
+        .neutral {
+          color: orange;
+        }
+
+        .negative {
+          color: red;
+        }
+      }
+    }
+  }
+
   .data-section {
     &:not(:first-child) {
       margin-top: 50px;

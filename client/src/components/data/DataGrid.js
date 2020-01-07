@@ -46,7 +46,7 @@ export default class DataGrid extends Component {
 
   render() {
     const { data } = this.state;
-    const { heading, type } = this.props;
+    const { heading, type, hideSentiment } = this.props;
 
     return (
       <div className="data-section">
@@ -83,7 +83,10 @@ export default class DataGrid extends Component {
                       })}
                 </p>
 
-                <Replies replies={opinion.replies}></Replies>
+                <Replies
+                  replies={opinion.replies}
+                  hideSentiment={hideSentiment ? hideSentiment : false}
+                ></Replies>
               </div>
             ))}
         </div>
