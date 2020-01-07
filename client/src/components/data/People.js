@@ -1,19 +1,44 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+// import components
+import Replies from './Replies';
+
 export default class People extends Component {
   constructor() {
     super();
 
     this.state = {
-      opinions: []
+      opinions: [],
+      count: 8,
+      totalCount: 0
     };
+
+    this.onViewMore = this.onViewMore.bind(this);
   }
 
   componentDidMount() {
-    axios.get('/api/data/opinions/people').then(res => {
-      console.log(res);
-      this.setState({ opinions: res.data });
+    axios
+      .get(`/api/data/opinions/people?count=${this.state.count}`)
+      .then(res => {
+        this.setState({
+          totalCount: res.data.totalCount,
+          opinions: res.data.data
+        });
+      });
+  }
+
+  onViewMore(e) {
+    e.preventDefault();
+
+    const { count } = this.state;
+
+    axios.get(`/api/data/opinions/people?count=${count + 8}`).then(res => {
+      this.setState({
+        totalCount: res.data.count,
+        opinions: res.data.data,
+        count: this.state.count + 2
+      });
     });
   }
 
@@ -22,40 +47,41 @@ export default class People extends Component {
 
     return (
       <div className="data-section">
-        <h2>Opinions - People</h2>
-        {opinions.length > 0 &&
-          opinions.map((opinion, index) => (
-            <div className="data-point" key={index}>
-              <h3>
-                {opinion.names.map((name, index) => {
-                  if (index !== opinion.names.length - 1) {
-                    return <span key={index}>{name}, </span>;
-                  } else {
-                    return <span key={index}>{name}</span>;
-                  }
-                })}
-              </h3>
+        <h2>
+          Opinions - People{' '}
+          <span className="pill light">
+            Data Points: {this.state.totalCount}
+          </span>
+        </h2>
 
-              <div className="replies">
-                <ul>
-                  {opinion.replies.map((reply, index) => (
-                    <li key={index}>
-                      {reply.message}{' '}
-                      <span className={`pill ${reply.sentiment}`}>
-                        {reply.sentiment === 'positive'
-                          ? ':)'
-                          : reply.sentiment === 'neutral'
-                          ? ':|'
-                          : reply.sentiment === 'negative'
-                          ? ':('
-                          : null}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
+        <div className="data-grid">
+          {opinions.length > 0 &&
+            opinions.map((opinion, index) => (
+              <div className="data-point" key={index}>
+                <h3 className="heading">Name(s)</h3>
+
+                <p>
+                  {opinion.names.map((name, index) => {
+                    if (index !== opinion.names.length - 1) {
+                      return <span key={index}>{name}, </span>;
+                    } else {
+                      return <span key={index}>{name}</span>;
+                    }
+                  })}
+                </p>
+
+                <Replies replies={opinion.replies}></Replies>
               </div>
-            </div>
-          ))}
+            ))}
+        </div>
+
+        {this.state.totalCount > opinions.length && (
+          <div className="view-more-wrapper">
+            <button className="btn-light" onClick={this.onViewMore}>
+              View More
+            </button>
+          </div>
+        )}
       </div>
     );
   }

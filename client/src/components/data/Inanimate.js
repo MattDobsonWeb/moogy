@@ -1,18 +1,44 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+// import components
+import Replies from './Replies';
+
 export default class Inanimate extends Component {
   constructor() {
     super();
 
     this.state = {
-      inanimate: []
+      inanimate: [],
+      count: 8,
+      totalCount: 0
     };
+
+    this.onViewMore = this.onViewMore.bind(this);
   }
 
   componentDidMount() {
-    axios.get('/api/data/opinions/inanimate').then(res => {
-      this.setState({ inanimate: res.data });
+    axios
+      .get(`/api/data/opinions/inanimate?count=${this.state.count}`)
+      .then(res => {
+        this.setState({
+          totalCount: res.data.totalCount,
+          inanimate: res.data.data
+        });
+      });
+  }
+
+  onViewMore(e) {
+    e.preventDefault();
+
+    const { count } = this.state;
+
+    axios.get(`/api/data/opinions/inanimate?count=${count + 8}`).then(res => {
+      this.setState({
+        totalCount: res.data.count,
+        inanimate: res.data.data,
+        count: this.state.count + 2
+      });
     });
   }
 
@@ -21,40 +47,31 @@ export default class Inanimate extends Component {
 
     return (
       <div className="data-section">
-        <h2>Opinions - Inanimate</h2>
-        {inanimate.length > 0 &&
-          inanimate.map((inanimate, index) => (
-            <div className="data-point" key={index}>
-              <h3>
-                {inanimate.values.map((value, index) => {
-                  if (index !== inanimate.values.length - 1) {
-                    return <span key={index}>{value}, </span>;
-                  } else {
-                    return <span key={index}>{value}</span>;
-                  }
-                })}
-              </h3>
+        <h2>
+          Opinions - Inanimate{' '}
+          <span className="pill light">
+            Data Points: {this.state.totalCount}
+          </span>
+        </h2>
 
-              <div className="replies">
-                <ul>
-                  {inanimate.replies.map((reply, index) => (
-                    <li key={index}>
-                      {reply.message}{' '}
-                      <span className={`pill ${reply.sentiment}`}>
-                        {reply.sentiment === 'positive'
-                          ? ':)'
-                          : reply.sentiment === 'neutral'
-                          ? ':|'
-                          : reply.sentiment === 'negative'
-                          ? ':('
-                          : null}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
+        <div className="data-grid">
+          {inanimate.length > 0 &&
+            inanimate.map((inanimate, index) => (
+              <div className="data-point" key={index}>
+                <h3>
+                  {inanimate.values.map((value, index) => {
+                    if (index !== inanimate.values.length - 1) {
+                      return <span key={index}>{value}, </span>;
+                    } else {
+                      return <span key={index}>{value}</span>;
+                    }
+                  })}
+                </h3>
+
+                <Replies replies={inanimate.replies}></Replies>
               </div>
-            </div>
-          ))}
+            ))}
+        </div>
       </div>
     );
   }

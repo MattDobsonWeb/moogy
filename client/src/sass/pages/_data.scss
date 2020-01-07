@@ -1,33 +1,120 @@
 .data-page {
-  .data-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+  max-width: 1920px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 30px 0;
 
-    .data-point {
-      .replies {
-        ul {
-          li {
-            .pill {
-              padding: 3px;
-              font-size: 0.7rem;
-              color: $white;
-              font-weight: 700;
-              border-radius: 5px;
+  .data-section {
+    &:not(:first-child) {
+      margin-top: 50px;
+    }
 
-              &.positive {
-                background-color: green;
+    h2 {
+      display: flex;
+      align-items: center;
+
+      .pill.light {
+        background-color: #dbdbdb;
+        border-radius: 5px;
+        font-weight: 400;
+        padding: 5px 8px;
+        font-size: 1rem;
+        margin-left: 10px;
+      }
+    }
+    .data-grid {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      grid-gap: 30px;
+
+      @media (min-width: 768px) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      @media (min-width: 992px) {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      @media (min-width: 1500px) {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .data-point {
+        border: 1px solid $dark;
+        padding: 20px;
+        border-radius: 5px;
+
+        .heading {
+          margin: 0;
+          font-size: 1rem;
+          margin-bottom: 10px;
+          display: flex;
+          align-items: center;
+
+          .pill.light {
+            background-color: #dbdbdb;
+            border-radius: 5px;
+            font-weight: 400;
+            padding: 5px 8px;
+            font-size: 0.7rem;
+            margin-left: 10px;
+          }
+        }
+
+        p {
+          margin: 0;
+        }
+
+        .replies {
+          margin-top: 20px;
+
+          ul {
+            padding: 0;
+            list-style: none;
+            margin: 0;
+
+            li {
+              &:not(:last-child) {
+                margin-bottom: 10px;
               }
 
-              &.neutral {
-                background-color: orange;
+              .pill {
+                padding: 3px;
+                font-size: 0.7rem;
+                color: $white;
+                font-weight: 700;
+                border-radius: 5px;
+
+                &.positive {
+                  background-color: green;
+                }
+
+                &.neutral {
+                  background-color: orange;
+                }
+
+                &.negative {
+                  background-color: red;
+                }
               }
 
-              &.negative {
-                background-color: red;
+              button.btn-light {
+                width: 100%;
+                font-size: 1rem;
+                padding: 10px 20px;
               }
             }
           }
         }
+      }
+    }
+
+    .view-more-wrapper {
+      width: 100%;
+      margin-top: 20px;
+
+      button {
+        width: 100%;
       }
     }
   }
