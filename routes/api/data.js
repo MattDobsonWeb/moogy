@@ -168,6 +168,99 @@ router.get('/training', (req, res) => {
   });
 });
 
+// @route   POST api/data/train/person
+// @desc    Train some data on a person
+// @access  Public
+router.post('/train/person', (req, res) => {
+  if (!req.body.names || !req.body.message || !req.body.sentiment) {
+    return res.status(400).json({ trainPerson: 'Missing fields' });
+  }
+
+  // find the specified document
+  OpinionPerson.findOne({ names: req.body.names })
+    .then(person => {
+      if (!person) {
+        return res.status(400).json({
+          trainPerson: 'Something went wrong whilst trying to train the model'
+        });
+      }
+
+      // add the sentiment to the relevant message
+      let obj = person.replies.find((o, i) => {
+        if (o.message === req.body.message) {
+          person.replies[i].sentiment = req.body.sentiment;
+          return true;
+        }
+      });
+
+      if (!obj) {
+        return res.status(400).json({
+          trainPerson: 'Something went wrong whilst trying to train the model'
+        });
+      }
+
+      person.save().then(newPerson => {
+        return res.json({ success: true });
+      });
+    })
+    .catch(err => {
+      return res.status(400).json({
+        trainPerson: 'Something went wrong whilst trying to train the model'
+      });
+    });
+});
+
+// @route   POST api/data/train/inanimate
+// @desc    Train some data on something inanimate
+// @access  Public
+router.post('/train/inanimate', (req, res) => {
+  if (!req.body.values || !req.body.message || !req.body.sentiment) {
+    console.log('err no values');
+
+    return res.status(400).json({ trainInanimtae: 'Missing fields' });
+  }
+
+  OpinionInanimate.findOne({ values: req.body.values })
+    .then(inanimate => {
+      if (!inanimate) {
+        console.log('err no doc');
+
+        return res.status(400).json({
+          trainInanimtae:
+            'Something went wrong whilst trying to train the model'
+        });
+      }
+
+      // add the sentiment to the relevant message
+      let obj = inanimate.replies.find((o, i) => {
+        if (o.message === req.body.message) {
+          inanimate.replies[i].sentiment = req.body.sentiment;
+          return true;
+        }
+      });
+
+      if (!obj) {
+        console.log('err obj');
+
+        return res.status(400).json({
+          trainInanimtae:
+            'Something went wrong whilst trying to train the model'
+        });
+      }
+
+      inanimate.save().then(newInanimate => {
+        return res.json({ success: true });
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      console.log('err here');
+      return res.status(400).json({
+        trainInanimtae: 'Something went wrong whilst trying to train the model'
+      });
+    });
+});
+
 // OpinionPerson.findOne({ names: data.names }).then(newPerson => {
 //   let obj = newPerson.replies.find((o, i) => {
 //     if (o.message === data.message) {

@@ -8,7 +8,8 @@ export default class Train extends Component {
 
     this.state = {
       trainingPeople: [],
-      trainingInanimate: []
+      trainingInanimate: [],
+      loading: true
     };
   }
 
@@ -16,13 +17,15 @@ export default class Train extends Component {
     axios.get('/api/data/training').then(res => {
       this.setState({
         trainingInanimate: res.data.trainingInanimate,
-        trainingPeople: res.data.trainingPeople
+        trainingPeople: res.data.trainingPeople,
+        loading: false
       });
     });
   }
 
   render() {
-    const { trainingInanimate, trainingPeople } = this.state;
+    const { trainingInanimate, trainingPeople, loading } = this.state;
+
     return (
       <div className="train-page">
         <div className="intro">
@@ -42,6 +45,16 @@ export default class Train extends Component {
             <div className="messages">
               {trainingPeople.map(message => (
                 <MessageCard message={message} type="person"></MessageCard>
+              ))}
+            </div>
+          </div>
+
+          <div className="training-section">
+            <h2>Opinions - Inanimate</h2>
+
+            <div className="messages">
+              {trainingInanimate.map(message => (
+                <MessageCard message={message} type="inanimate"></MessageCard>
               ))}
             </div>
           </div>
