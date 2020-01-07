@@ -42,6 +42,15 @@ io.on('connection', socket => {
 
   socket.on('message', msg => {
     if (awaitingUserResponse) {
+      if (msg.message === '') {
+        io.emit(
+          'reply',
+          "I've skipped adding your response, ask me something else!"
+        );
+        io.emit('sentiment', 'positive');
+        awaitingUserResponse = false;
+      }
+
       client
         .message(msg.message)
         .then(data => {

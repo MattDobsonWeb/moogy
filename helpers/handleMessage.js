@@ -6,6 +6,7 @@ const OpinionInanimate = require('../models/OpinionInanimate');
 const Favourite = require('../models/Favourite');
 
 module.exports = function handleMessage({ entities }, data) {
+  console.log(entities);
   let intent, message;
   let awaitingReply = false;
 
@@ -97,7 +98,7 @@ module.exports = function handleMessage({ entities }, data) {
             message:
               "I don't currently have an opinion on " +
               entities.person[0].value +
-              ', what do you think of them?',
+              ', what do you think of them? Just hit ENTER to skip saving a reply.',
             awaitingReply: true,
             sentiment
           });
@@ -122,7 +123,7 @@ module.exports = function handleMessage({ entities }, data) {
             message:
               "I don't currently have an opinion on " +
               entities.activity[0].value +
-              ', what do you think?',
+              ', what do you think? Just hit ENTER to skip saving a reply.',
             awaitingReply: true,
             sentiment
           });
@@ -159,7 +160,7 @@ module.exports = function handleMessage({ entities }, data) {
         if (!favourite) {
           return data({
             message:
-              "I don't currently have an opinion on this, what's your opinion?",
+              "I don't currently have an opinion on this, what's your opinion? Just hit ENTER to skip saving a reply.",
             awaitingReply: true,
             sentiment: 'neutral'
           });
@@ -171,7 +172,7 @@ module.exports = function handleMessage({ entities }, data) {
         return data({
           message: `${favourite.replies[random].message}. I have ${
             count > 1 ? `${count} opinions` : `${count} opinion`
-          } on this topic. What do you think?`,
+          } on this topic. What do you think? Just hit ENTER to skip saving a reply.`,
           awaitingReply: true,
           sentiment: favourite.replies[random].sentiment
         });
@@ -256,7 +257,7 @@ const getOpinion = object => {
         : `opinion on this data point, it's ${
             positiveCount >= negativeCount ? 'positive' : 'negative'
           }.`
-    } What do you think?`,
+    } What do you think? Just hit ENTER to skip saving a reply.`,
     awaitingReply: true,
     sentiment: positiveCount >= negativeCount ? 'positive' : 'negative'
   };

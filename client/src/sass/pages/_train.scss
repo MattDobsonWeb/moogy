@@ -6,6 +6,20 @@
 
   .intro {
     text-align: center;
+
+    h1 {
+      margin-top: 0;
+    }
+  }
+
+  .message-card {
+    padding: 20px;
+    border: 1px solid $dark;
+    border-radius: 5px;
+
+    &:not(:last-child) {
+      margin-bottom: 30px;
+    }
   }
 
   .training-messages {
@@ -16,12 +30,10 @@
 
       .messages {
         .message-card {
-          padding: 20px;
-          border: 1px solid $dark;
-          border-radius: 5px;
-
-          &:not(:last-child) {
-            margin-bottom: 30px;
+          .inner-section {
+            &:not(:first-child) {
+              margin-top: 1rem;
+            }
           }
 
           .heading {

@@ -59,24 +59,34 @@ export default class MessageCard extends Component {
     if (!success) {
       return (
         <div className="message-card">
-          <h3 className="heading">
-            {type === 'person' ? 'Name(s)' : 'Value(s)'}
-          </h3>
-          {type === 'person'
-            ? message.names.map((name, index) => {
-                if (index !== message.names.length - 1) {
-                  return <span key={index}>{name}, </span>;
-                } else {
-                  return <span key={index}>{name}</span>;
-                }
-              })
-            : message.values.map((value, index) => {
-                if (index !== message.values.length - 1) {
-                  return <span key={index}>{value}, </span>;
-                } else {
-                  return <span key={index}>{value}</span>;
-                }
-              })}
+          <div className="inner-section">
+            <h3 className="heading">
+              {type === 'person' ? 'Name(s)' : 'Value(s)'}
+            </h3>
+            {type === 'person'
+              ? message.names.map((name, index) => {
+                  if (index !== message.names.length - 1) {
+                    return <span key={index}>{name}, </span>;
+                  } else {
+                    return <span key={index}>{name}</span>;
+                  }
+                })
+              : message.values.map((value, index) => {
+                  if (index !== message.values.length - 1) {
+                    return <span key={index}>{value}, </span>;
+                  } else {
+                    return <span key={index}>{value}</span>;
+                  }
+                })}
+          </div>
+
+          <div className="inner-section">
+            <h3 className="heading">Context</h3>
+            <p>
+              Do you like{' '}
+              {type === 'person' ? message.names[0] : message.values[0]}?
+            </p>
+          </div>
 
           <div className="message-wrapper">
             <h3 className="heading">Message</h3>
