@@ -6,6 +6,7 @@ import './sass/main.scss';
 import Header from './components/layout/Header';
 import Home from './components/home';
 import Data from './components/data';
+import Train from './components/train';
 
 class App extends Component {
   render() {
@@ -16,6 +17,7 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={Home}></Route>
             <Route path="/data" component={Data}></Route>
+            <Route path="/train" component={Train}></Route>
           </Switch>
         </div>
       </Router>

@@ -11,7 +11,8 @@ export default class DataGrid extends Component {
     this.state = {
       data: [],
       count: 8,
-      totalCount: 0
+      totalCount: 0,
+      loading: false
     };
 
     this.onViewMore = this.onViewMore.bind(this);
@@ -33,19 +34,22 @@ export default class DataGrid extends Component {
     const { count } = this.state;
     const { type } = this.props;
 
+    this.setState({ loading: true });
+
     e.preventDefault();
 
     axios.get(`/api/data/opinions/${type}?count=${count + 8}`).then(res => {
       this.setState({
         totalCount: res.data.totalCount,
         data: res.data.data,
-        count: this.state.count + 8
+        count: this.state.count + 8,
+        loading: false
       });
     });
   }
 
   render() {
-    const { data } = this.state;
+    const { data, loading } = this.state;
     const { heading, type, hideSentiment } = this.props;
 
     return (
@@ -94,7 +98,11 @@ export default class DataGrid extends Component {
         {this.state.totalCount > data.length && (
           <div className="view-more-wrapper">
             <button className="btn-light" onClick={this.onViewMore}>
-              View More
+              {loading ? (
+                <i className="fas fa-circle-notch fa-spin"></i>
+              ) : (
+                `View More`
+              )}
             </button>
           </div>
         )}

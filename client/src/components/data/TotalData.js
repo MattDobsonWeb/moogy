@@ -9,6 +9,9 @@ export default class TotalData extends Component {
       dataCount: 0,
       entryCount: 0,
       sentiment: '',
+      positiveCount: 0,
+      negativeCount: 0,
+      neutralCount: 0,
       loading: true
     };
   }
@@ -19,13 +22,24 @@ export default class TotalData extends Component {
         dataCount: res.data.dataCount,
         entryCount: res.data.entryCount,
         sentiment: res.data.sentiment,
+        positiveCount: res.data.positiveCount,
+        neutralCount: res.data.neutralCount,
+        negativeCount: res.data.negativeCount,
         loading: false
       });
     });
   }
 
   render() {
-    const { dataCount, entryCount, sentiment, loading } = this.state;
+    const {
+      dataCount,
+      entryCount,
+      sentiment,
+      positiveCount,
+      negativeCount,
+      neutralCount,
+      loading
+    } = this.state;
 
     let sentimentCapitalised =
       sentiment.charAt(0).toUpperCase() + sentiment.slice(1);
@@ -61,6 +75,39 @@ export default class TotalData extends Component {
               <i className="fas fa-circle-notch fa-spin"></i>
             ) : (
               <span className={sentiment}>{sentimentCapitalised}</span>
+            )}
+          </p>
+        </div>
+
+        <div className="total-section">
+          <h2 className="heading">Positive Entries</h2>
+          <p className="value">
+            {loading ? (
+              <i className="fas fa-circle-notch fa-spin"></i>
+            ) : (
+              positiveCount
+            )}
+          </p>
+        </div>
+
+        <div className="total-section">
+          <h2 className="heading">Neutral Entries</h2>
+          <p className="value">
+            {loading ? (
+              <i className="fas fa-circle-notch fa-spin"></i>
+            ) : (
+              neutralCount
+            )}
+          </p>
+        </div>
+
+        <div className="total-section">
+          <h2 className="heading">Negative Entries</h2>
+          <p className="value">
+            {loading ? (
+              <i className="fas fa-circle-notch fa-spin"></i>
+            ) : (
+              negativeCount
             )}
           </p>
         </div>

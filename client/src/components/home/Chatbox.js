@@ -55,7 +55,9 @@ class Chatbox extends Component {
     console.log('reply', entry);
     const chat = this.state.chatHistory;
 
-    chat[chat.length - 1].reply = entry;
+    if (chat[chat.length - 1]) {
+      chat[chat.length - 1].reply = entry;
+    }
 
     this.setState({
       chatHistory: chat
@@ -101,7 +103,7 @@ class Chatbox extends Component {
               <p>
                 <strong>
                   Disclaimer: Most of Moogy's responses come from user
-                  interaction, therefore, some responses may be innapropriate
+                  interaction, therefore, some responses may be inappropriate.
                 </strong>
               </p>
             </div>

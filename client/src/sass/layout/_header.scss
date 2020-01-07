@@ -2,11 +2,42 @@ header {
   .inner-content {
     display: flex;
     align-items: center;
+    justify-content: space-between;
 
     .logo-wrapper {
       img {
         width: 100%;
         max-width: 400px;
+      }
+    }
+
+    .nav-links {
+      ul {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+
+        li {
+          display: inline-block;
+
+          &:not(:last-child) {
+            margin-right: 60px;
+          }
+
+          a {
+            display: block;
+            color: $dark;
+            font-weight: 700;
+            font-size: 2rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+
+            &:hover {
+              transform: translateY(-3px);
+              opacity: 0.7;
+            }
+          }
+        }
       }
     }
   }

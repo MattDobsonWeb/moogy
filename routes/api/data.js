@@ -77,7 +77,10 @@ router.get('/totals', (req, res) => {
         return res.json({
           dataCount: dataCount,
           entryCount: entryCount,
-          sentiment: finalSentiment
+          sentiment: finalSentiment,
+          positiveCount: positiveCount,
+          neutralCount: neutralCount,
+          negativeCount: negativeCount
         });
       });
     });
@@ -125,5 +128,56 @@ router.get('/opinions/favourites', (req, res) => {
       });
   });
 });
+
+// @route   GET api/data/training
+// @desc    Get data that needs training
+// @access  Public
+router.get('/training', (req, res) => {
+  let trainingPeople = [],
+    trainingInanimate = [];
+
+  OpinionPerson.find().then(people => {
+    people.map(person => {
+      person.replies.map(reply => {
+        if (!reply.sentiment) {
+          const data = { names: person.names, message: reply.message };
+
+          trainingPeople.push(data);
+        }
+      });
+    });
+
+    OpinionInanimate.find().then(inanimate => {
+      inanimate.map(obj => {
+        obj.replies.map(reply => {
+          if (!reply.sentiment) {
+            const data = { values: obj.values, message: reply.message };
+
+            trainingInanimate.push(data);
+          }
+        });
+      });
+
+      const finalData = {
+        trainingPeople: trainingPeople,
+        trainingInanimate: trainingInanimate
+      };
+
+      return res.json(finalData);
+    });
+  });
+});
+
+// OpinionPerson.findOne({ names: data.names }).then(newPerson => {
+//   let obj = newPerson.replies.find((o, i) => {
+//     if (o.message === data.message) {
+//       newPerson.replies[i].sentiment = 'test';
+
+//       return true;
+//     }
+//   });
+
+//   console.log(newPerson);
+// });
 
 module.exports = router;

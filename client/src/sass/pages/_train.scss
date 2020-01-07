@@ -1,0 +1,118 @@
+.train-page {
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 50px 0;
+
+  .intro {
+    text-align: center;
+  }
+
+  .training-messages {
+    .training-section {
+      &:not(:last-child) {
+        margin-bottom: 0;
+      }
+
+      .messages {
+        .message-card {
+          padding: 20px;
+          border: 1px solid $dark;
+          border-radius: 5px;
+
+          &:not(:last-child) {
+            margin-bottom: 30px;
+          }
+
+          .heading {
+            margin: 0;
+            font-size: 1rem;
+            margin-bottom: 10px;
+          }
+
+          .message-wrapper {
+            margin-top: 20px;
+
+            .message {
+              display: flex;
+              align-items: center;
+
+              p {
+                width: 100%;
+              }
+
+              .sentiment-choice {
+                flex-shrink: 0;
+
+                .sentiment-btn {
+                  width: 45px;
+                  height: 45px;
+                  margin-right: 10px;
+                  border-radius: 10px;
+                  border: none;
+                  font-weight: 700;
+                  color: $white;
+                  opacity: 0.3;
+                  font-size: 1.1rem;
+                  transition: all 0.3s ease;
+
+                  &:hover {
+                    opacity: 1;
+                  }
+
+                  &.selected {
+                    opacity: 1;
+                  }
+
+                  &.positive {
+                    background-color: green;
+                    box-shadow: 0 5px 0 #025227;
+
+                    &:hover {
+                      box-shadow: 0 2px 0 #025227;
+                    }
+                  }
+
+                  &.neutral {
+                    background-color: orange;
+                    box-shadow: 0 5px 0 #613401;
+
+                    &:hover {
+                      box-shadow: 0 2px 0 #613401;
+                    }
+                  }
+
+                  &.negative {
+                    background-color: red;
+                    box-shadow: 0 5px 0 #4e0101;
+
+                    &:hover {
+                      box-shadow: 0 2px 0 #4e0101;
+                    }
+                  }
+
+                  &:focus {
+                    outline: none;
+                  }
+                }
+
+                .btn-light {
+                  font-size: 1rem;
+
+                  &:disabled {
+                    opacity: 0.4;
+
+                    &:hover {
+                      cursor: not-allowed;
+                      box-shadow: 0 5px 0 #dbdbdb;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

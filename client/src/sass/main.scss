@@ -7,6 +7,7 @@
 // import pages
 @import 'pages/home';
 @import 'pages/data';
+@import 'pages/train';
 
 * {
   box-sizing: border-box;
@@ -69,12 +70,11 @@ body {
   &:hover {
     opacity: 0.8;
     cursor: pointer;
+    box-shadow: 0 2px 0 #dbdbdb;
   }
 
   &:focus {
     outline: none;
-    box-shadow: none;
-    transform: translateY(5px);
   }
 }
 
