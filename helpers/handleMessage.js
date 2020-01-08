@@ -249,7 +249,7 @@ const getOpinion = object => {
 
   let userMessage = '',
     sentiment = '';
-  if (positiveCount > negativeCount && positiveCount > neutralCount) {
+  if (positiveCount >= negativeCount && positiveCount >= neutralCount) {
     userMessage =
       positiveMessages[Math.floor(Math.random() * positiveMessages.length)];
     sentiment = 'positive';
@@ -263,9 +263,11 @@ const getOpinion = object => {
     sentiment = 'neutral';
   } else {
     userMessage =
-      object.replies[Math.floor(Math.random() * object.replies.length)];
+      object.replies[Math.floor(Math.random() * object.replies.length)].message;
     sentiment = 'neutral';
   }
+
+  console.log(userMessage);
 
   return {
     message: `${checkPunctuation(userMessage)} I have ${dataCount} user ${
