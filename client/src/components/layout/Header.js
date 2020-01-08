@@ -2,6 +2,10 @@ import React from 'react';
 import Logo from '../../images/logo.png';
 import { Link } from 'react-router-dom';
 
+// import components
+import About from '../about';
+import Tech from '../tech';
+
 export default function Header() {
   return (
     <header>
@@ -16,6 +20,14 @@ export default function Header() {
           <ul>
             <li>
               <Link to="/">Home</Link>
+            </li>
+
+            <li>
+              <About></About>
+            </li>
+
+            <li>
+              <Tech></Tech>
             </li>
 
             <li>

@@ -33,17 +33,28 @@ header {
             margin-right: 60px;
           }
 
-          a {
+          a,
+          .modal-btn {
             display: block;
             color: $dark;
             font-weight: 700;
             font-size: 2rem;
             text-decoration: none;
             transition: all 0.3s ease;
+            background-color: transparent;
+            border: 0;
+            margin: 0;
+            padding: 0;
+            font-family: 'Fira Mono', monospace;
 
             &:hover {
+              cursor: pointer;
               transform: translateY(-3px);
               opacity: 0.7;
+            }
+
+            &:focus {
+              outline: none;
             }
           }
         }

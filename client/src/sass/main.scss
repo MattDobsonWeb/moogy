@@ -4,6 +4,9 @@
 // import layout
 @import 'layout/header';
 
+// import elemets
+@import 'elements/modal';
+
 // import pages
 @import 'pages/home';
 @import 'pages/data';
@@ -24,6 +27,10 @@ body {
   font-family: 'Fira Mono', monospace;
   color: $dark;
   -webkit-font-smoothing: antialiased;
+
+  &.no-scroll {
+    overflow: hidden;
+  }
 }
 
 #root {
@@ -47,12 +54,11 @@ body {
   &:hover {
     opacity: 0.8;
     cursor: pointer;
+    box-shadow: 0 2px 0 #0d5579;
   }
 
   &:focus {
     outline: none;
-    box-shadow: none;
-    transform: translateY(5px);
   }
 }
 
