@@ -91,9 +91,9 @@ class Chatbox extends Component {
           {chatHistory.length < 1 && (
             <div className="no-messages">
               <p>
-                Moogy is an opinionated Robot, all of Moogy's opinions are based
-                on interactions with other users, ask him about a topic or a
-                person!
+                Moogy is an opinionated chatbot, all of Moogy's opinions are
+                based on interactions with other users, ask him about a topic or
+                a person!
               </p>
               <p>
                 If you don't know what to ask, select a suggested message from

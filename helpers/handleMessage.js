@@ -225,7 +225,8 @@ const getIntent = entities => {
 const getOpinion = object => {
   let dataCount = 0,
     positiveCount = 0,
-    negativeCount = 0;
+    neutralCount = 0;
+  negativeCount = 0;
 
   let positiveMessages = [],
     negativeMessages = [],
@@ -241,34 +242,39 @@ const getOpinion = object => {
       negativeCount++;
       negativeMessages.push(opinion.message);
     } else {
+      neutralCount++;
       neutralMessages.push(opinion.message);
     }
   });
 
-  let userMessage = '';
-  if (positiveCount > 0 && positiveCount >= negativeCount) {
+  let userMessage = '',
+    sentiment = '';
+  if (positiveCount > negativeCount && positiveCount > neutralCount) {
     userMessage =
       positiveMessages[Math.floor(Math.random() * positiveMessages.length)];
-  } else if (negativeCount > positiveCount) {
+    sentiment = 'positive';
+  } else if (negativeCount > positiveCount && negativeCount > positiveCount) {
     userMessage =
       negativeMessages[Math.floor(Math.random() * negativeMessages.length)];
-  } else {
+    sentiment = 'negative';
+  } else if (neutralCount > positiveCount && neutralCount > negativeCount) {
     userMessage =
       neutralMessages[Math.floor(Math.random() * neutralMessages.length)];
+    sentiment = 'neutral';
+  } else {
+    userMessage =
+      object.replies[Math.floor(Math.random() * object.replies.length)];
+    sentiment = 'neutral';
   }
 
   return {
     message: `${checkPunctuation(userMessage)} I have ${dataCount} user ${
       dataCount > 1
-        ? `opinions on this data point, most are ${
-            positiveCount >= negativeCount ? 'positive' : 'negative'
-          }.`
-        : `opinion on this data point, it's ${
-            positiveCount >= negativeCount ? 'positive' : 'negative'
-          }.`
+        ? `opinions on this data point, most are ${sentiment}.`
+        : `opinion on this data point, it's ${sentiment}.`
     } What do you think? Just hit ENTER to skip saving a reply.`,
     awaitingReply: true,
-    sentiment: positiveCount >= negativeCount ? 'positive' : 'negative'
+    sentiment: sentiment
   };
 };
 

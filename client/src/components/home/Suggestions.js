@@ -12,9 +12,15 @@ const suggestions = [
   'Do you like Tom Hanks?',
   'Do you like the queen?',
   'Do you like Einstein?',
+  'Do you like shopping?',
   'Who is your favourite artist?',
   'Who is your favourite actor?',
-  'Who is your favourite band?'
+  'Who is your favourite band?',
+  'Who is your favourite footballer?',
+  'What do you think of hiking?',
+  'Do you like chess?',
+  'Do you like board games?',
+  'Do you like beer?'
 ];
 
 const shuffle = array => {

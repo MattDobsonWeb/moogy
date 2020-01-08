@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import socket from '../../socket';
 
-import DefaultRobot from '../../images/robot-animation.gif';
-import AngryRobot from '../../images/angry-robot.gif';
+import PositiveRobot from '../../images/robot-animation.gif';
+import NegativeRobot from '../../images/angry-robot.gif';
+import NeutralRobot from '../../images/neutral-robot.gif';
 
 export default class Robot extends Component {
   constructor() {
@@ -39,15 +40,21 @@ export default class Robot extends Component {
       <div className="robot-wrapper">
         {mood === 'negative' ? (
           <img
-            src={AngryRobot}
+            src={NegativeRobot}
             alt="Moogy"
             className={animate ? 'shake' : null}
           />
-        ) : (
+        ) : mood === 'positive' ? (
           <img
-            src={DefaultRobot}
+            src={PositiveRobot}
             alt="Moogy"
             className={animate ? 'jump' : null}
+          />
+        ) : (
+          <img
+            src={NeutralRobot}
+            alt="Moogy"
+            className={animate ? 'wobble' : null}
           />
         )}
       </div>
