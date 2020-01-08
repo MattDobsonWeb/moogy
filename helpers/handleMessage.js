@@ -183,7 +183,7 @@ module.exports = function handleMessage({ entities }, data) {
             count > 1 ? `${count} opinions` : `${count} opinion`
           } on this topic. What do you think? Just hit ENTER to skip saving a reply.`,
           awaitingReply: true,
-          sentiment: favourite.replies[random].sentiment
+          sentiment: 'positive'
         });
       }
     );
