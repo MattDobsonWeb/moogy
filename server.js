@@ -57,11 +57,11 @@ io.on('connection', socket => {
   socket.on('message', msg => {
     if (awaitingUserResponse) {
       if (msg.message === '') {
-        io.emit(
+        socket.emit(
           'reply',
           "I've skipped adding your response, ask me something else!"
         );
-        io.emit('sentiment', 'positive');
+        socket.emit('sentiment', 'positive');
         return (awaitingUserResponse = false);
       }
 
@@ -69,14 +69,14 @@ io.on('connection', socket => {
         .message(msg.message)
         .then(data => {
           saveReply(originalEntities, data, res => {
-            io.emit('reply', res.message);
-            io.emit('sentiment', res.sentiment);
+            socket.emit('reply', res.message);
+            socket.emit('sentiment', res.sentiment);
             awaitingUserResponse = false;
             originalEntities = {};
           });
         })
         .catch(err => {
-          io.emit(
+          socket.emit(
             'reply',
             'Woops, it looks like something went wrong with your message, try sending something else :)'
           );
@@ -91,13 +91,13 @@ io.on('connection', socket => {
               originalEntities = data;
             }
 
-            io.emit('reply', res.message);
-            io.emit('sentiment', res.sentiment);
+            socket.emit('reply', res.message);
+            socket.emit('sentiment', res.sentiment);
             console.log('Awaiting reply - ' + res.awaitingReply);
           });
         })
         .catch(err => {
-          io.emit(
+          socket.emit(
             'reply',
             'Woops, it looks like something went wrong with your message, try sending something else :)'
           );
