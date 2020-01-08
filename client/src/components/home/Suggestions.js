@@ -20,7 +20,8 @@ const suggestions = [
   'What do you think of hiking?',
   'Do you like chess?',
   'Do you like board games?',
-  'Do you like beer?'
+  'Do you like beer?',
+  'What do you think of rock music?'
 ];
 
 const shuffle = array => {
