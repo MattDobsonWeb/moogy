@@ -46,8 +46,10 @@
             margin-top: 20px;
 
             .message {
-              display: flex;
-              align-items: center;
+              @media (min-width: 768px) {
+                display: flex;
+                align-items: center;
+              }
 
               p {
                 width: 100%;

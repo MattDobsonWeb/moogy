@@ -10,13 +10,20 @@
     flex-direction: column;
 
     .center-content {
-      display: flex;
-      height: 100%;
+      @media (min-width: 992px) {
+        display: flex;
+        height: 100%;
+      }
 
       .chatbox {
-        width: 50%;
+        width: 100%;
         display: flex;
         flex-direction: column;
+        order: 1;
+
+        @media (min-width: 992px) {
+          width: 50%;
+        }
 
         .no-messages {
           height: 100%;
@@ -24,11 +31,21 @@
           flex-direction: column;
           justify-content: center;
           text-align: center;
-          padding: 50px;
           opacity: 0.6;
+          @media (min-width: 768px) {
+            padding: 50px;
+          }
 
           p {
             font-size: 1.5rem;
+
+            &:first-child {
+              margin-top: 0;
+            }
+
+            &:last-child {
+              margin-bottom: 0;
+            }
           }
         }
 
@@ -39,6 +56,7 @@
           justify-content: flex-end;
           align-items: center;
           text-align: center;
+          margin-bottom: 20px;
 
           .single-convo {
             flex: 0 1 25%;
@@ -98,10 +116,15 @@
       }
 
       .robot-wrapper {
-        width: 50%;
+        width: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
+        order: 2;
+
+        @media (min-width: 992px) {
+          width: 50%;
+        }
 
         img {
           width: 100%;
@@ -121,13 +144,20 @@
     .message-suggestions {
       margin-right: -20px;
       overflow: hidden;
-      max-height: 190px;
-      padding-bottom: 30px;
-      min-height: 155px;
+      flex-shrink: 0;
+      height: 215px;
+
+      @media (min-width: 992px) {
+        height: 155px;
+      }
 
       button {
         margin-top: 20px;
         margin-right: 20px;
+
+        @media (max-width: 992px) {
+          font-size: 1rem;
+        }
       }
     }
   }

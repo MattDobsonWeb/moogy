@@ -62,7 +62,7 @@ io.on('connection', socket => {
           "I've skipped adding your response, ask me something else!"
         );
         io.emit('sentiment', 'positive');
-        awaitingUserResponse = false;
+        return (awaitingUserResponse = false);
       }
 
       client
@@ -75,7 +75,12 @@ io.on('connection', socket => {
             originalEntities = {};
           });
         })
-        .catch(console.error);
+        .catch(err => {
+          io.emit(
+            'reply',
+            'Woops, it looks like something went wrong with your message, try sending something else :)'
+          );
+        });
     } else {
       client
         .message(msg.message)
@@ -91,7 +96,12 @@ io.on('connection', socket => {
             console.log('Awaiting reply - ' + res.awaitingReply);
           });
         })
-        .catch(console.error);
+        .catch(err => {
+          io.emit(
+            'reply',
+            'Woops, it looks like something went wrong with your message, try sending something else :)'
+          );
+        });
     }
   });
 });

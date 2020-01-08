@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-const fixedSuggestions = ['Hi there!', 'How are you?', 'Why were you created?'];
+const fixedSuggestions = ['Hi there!', 'How are you?', 'Who are you?'];
 
 const suggestions = [
   'What do you think of Donald Trump?',
@@ -10,9 +10,32 @@ const suggestions = [
   'Do you like gaming?',
   'Do you like Freddie Mercury?',
   'Do you like Tom Hanks?',
-  'Do you like the Queen?',
-  'Do you like Einstein?'
+  'Do you like the queen?',
+  'Do you like Einstein?',
+  'Who is your favourite artist?',
+  'Who is your favourite actor?',
+  'Who is your favourite band?'
 ];
+
+const shuffle = array => {
+  var currentIndex = array.length,
+    temporaryValue,
+    randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+};
 
 export default class Suggestions extends Component {
   constructor() {
@@ -20,7 +43,7 @@ export default class Suggestions extends Component {
 
     this.state = {
       fixedSuggestions: fixedSuggestions,
-      suggestions: suggestions
+      suggestions: shuffle(suggestions)
     };
 
     this.handleClick = this.handleClick.bind(this);

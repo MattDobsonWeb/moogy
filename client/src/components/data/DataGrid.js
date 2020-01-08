@@ -58,7 +58,7 @@ export default class DataGrid extends Component {
     return (
       <div className="data-section">
         <h2>
-          {heading}{' '}
+          <span>{heading}</span>{' '}
           {!initialLoading && (
             <span className="pill light">
               Data Points: {this.state.totalCount}

@@ -20,6 +20,7 @@ module.exports = function handleMessage({ entities }, data) {
 
   const greetings = firstEntityValue(entities, 'greetings');
   const getMood = firstEntityValue(entities, 'get_mood');
+  const getInfo = firstEntityValue(entities, 'get_info');
 
   if (getMood) {
     let dataCount = 0;
@@ -61,21 +62,21 @@ module.exports = function handleMessage({ entities }, data) {
                 negativeCount--;
               }
             });
-
-            if (positiveCount >= negativeCount) {
-              data({
-                message: `I have ${dataCount} user opinions stored, with the majority of the opinions being positive. So I'm a happy robot!`,
-                awaitingReply,
-                sentiment: 'positive'
-              });
-            } else {
-              data({
-                message: `I have ${dataCount} user opinions stored, with the majority of the opinions being negative. So I'm a bit of a Negative Nelly!`,
-                awaitingReply,
-                sentiment: 'negative'
-              });
-            }
           });
+
+          if (positiveCount >= negativeCount) {
+            data({
+              message: `I have ${dataCount} user opinions stored, with the majority of the opinions being positive. So I'm a happy robot!`,
+              awaitingReply,
+              sentiment: 'positive'
+            });
+          } else {
+            data({
+              message: `I have ${dataCount} user opinions stored, with the majority of the opinions being negative. So I'm a bit of a Negative Nelly!`,
+              awaitingReply,
+              sentiment: 'negative'
+            });
+          }
         });
       });
     });
@@ -87,6 +88,12 @@ module.exports = function handleMessage({ entities }, data) {
         ],
       awaitingReply,
       sentiment
+    });
+  } else if (getInfo) {
+    data({
+      message: responses.info,
+      awaitingReply: false,
+      sentiment: 'positive'
     });
   } else if (intent === 'opinion') {
     if (entities.person) {
@@ -108,7 +115,7 @@ module.exports = function handleMessage({ entities }, data) {
           const opinion = getOpinion(person);
 
           return data({
-            message: opinion.message,
+            message: checkPunctuation(opinion.message),
             awaitingReply: opinion.awaitingReply,
             sentiment: opinion.sentiment
           });
@@ -133,7 +140,7 @@ module.exports = function handleMessage({ entities }, data) {
           const opinion = getOpinion(inanimate);
 
           return data({
-            message: opinion.message,
+            message: checkPunctuation(opinion.message),
             awaitingReply: opinion.awaitingReply,
             sentiment: opinion.sentiment
           });
@@ -170,7 +177,9 @@ module.exports = function handleMessage({ entities }, data) {
         const count = favourite.replies.length;
 
         return data({
-          message: `${favourite.replies[random].message}. I have ${
+          message: `${checkPunctuation(
+            favourite.replies[random].message
+          )} I have ${
             count > 1 ? `${count} opinions` : `${count} opinion`
           } on this topic. What do you think? Just hit ENTER to skip saving a reply.`,
           awaitingReply: true,
@@ -249,7 +258,7 @@ const getOpinion = object => {
   }
 
   return {
-    message: `${userMessage} I have ${dataCount} user ${
+    message: `${checkPunctuation(userMessage)} I have ${dataCount} user ${
       dataCount > 1
         ? `opinions on this data point, most are ${
             positiveCount >= negativeCount ? 'positive' : 'negative'
@@ -261,4 +270,16 @@ const getOpinion = object => {
     awaitingReply: true,
     sentiment: positiveCount >= negativeCount ? 'positive' : 'negative'
   };
+};
+
+const checkPunctuation = message => {
+  if (
+    !message.endsWith('?') &&
+    !message.endsWith('.') &&
+    !message.endsWith('!')
+  ) {
+    return message + '.';
+  } else {
+    return message;
+  }
 };

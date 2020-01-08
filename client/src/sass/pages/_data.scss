@@ -6,8 +6,16 @@
 
   .total-data {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
     grid-gap: 30px;
+    grid-template-columns: repeat(1, 1fr);
+
+    @media (min-width: 568px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (min-width: 992px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
 
     .total-section {
       text-align: center;
@@ -15,12 +23,21 @@
       .heading {
         margin: 0;
         margin-bottom: 20px;
+        font-size: 1.2rem;
+
+        @media (min-width: 992px) {
+          font-size: 1.5rem;
+        }
       }
 
       .value {
         margin: 0;
-        font-size: 3rem;
         font-weight: 700;
+        font-size: 2rem;
+
+        @media (min-width: 992px) {
+          font-size: 3rem;
+        }
 
         .positive {
           color: green;
@@ -43,18 +60,29 @@
     }
 
     h2 {
-      display: flex;
-      align-items: center;
+      span {
+        display: block;
+      }
+      @media (min-width: 568px) {
+        display: flex;
+        align-items: center;
+      }
 
       .pill.light {
+        display: inline-block;
+        white-space: nowrap;
         background-color: #dbdbdb;
         border-radius: 5px;
         font-weight: 400;
         padding: 5px 8px;
         font-size: 1rem;
-        margin-left: 10px;
+
+        @media (min-width: 568px) {
+          margin-left: 10px;
+        }
       }
     }
+
     .data-grid {
       display: grid;
       grid-template-columns: repeat(1, 1fr);
@@ -117,6 +145,7 @@
                 color: $white;
                 font-weight: 700;
                 border-radius: 5px;
+                white-space: nowrap;
 
                 &.positive {
                   background-color: green;

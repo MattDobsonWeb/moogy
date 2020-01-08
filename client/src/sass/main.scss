@@ -21,7 +21,6 @@ html {
 }
 
 body {
-  height: 100%;
   padding: 20px;
   margin: 0;
   font-family: 'Fira Mono', monospace;
@@ -30,6 +29,10 @@ body {
 
   &.no-scroll {
     overflow: hidden;
+  }
+
+  @media (min-width: 992px) {
+    height: 100%;
   }
 }
 

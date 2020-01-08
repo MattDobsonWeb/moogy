@@ -25,9 +25,9 @@ export default class index extends Component {
       <>
         <div className="main-content">
           <div className="center-content">
-            <Chatbox suggested={this.state.suggested}></Chatbox>
-
             <Robot></Robot>
+
+            <Chatbox suggested={this.state.suggested}></Chatbox>
           </div>
 
           <Suggestions onSuggestionClick={this.handleSuggestion}></Suggestions>
