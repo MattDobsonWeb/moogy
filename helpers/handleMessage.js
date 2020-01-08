@@ -181,7 +181,7 @@ module.exports = function handleMessage({ entities }, data) {
             favourite.replies[random].message
           )} I have ${
             count > 1 ? `${count} opinions` : `${count} opinion`
-          } on this topic. What do you think? Just hit ENTER to skip saving a reply.`,
+          } on this topic. Who or what is your favourite? Just hit ENTER to skip saving a reply.`,
           awaitingReply: true,
           sentiment: 'positive'
         });
