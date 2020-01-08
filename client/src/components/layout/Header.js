@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Logo from '../../images/logo.png';
 import { Link } from 'react-router-dom';
 
@@ -6,40 +6,44 @@ import { Link } from 'react-router-dom';
 import About from '../about';
 import Tech from '../tech';
 
-export default function Header() {
-  return (
-    <header>
-      <div className="inner-content">
-        <div className="logo-wrapper">
-          <Link to="/">
-            <img src={Logo} alt="Moogy Logo" />
-          </Link>
+class Header extends Component {
+  render() {
+    return (
+      <header>
+        <div className="inner-content">
+          <div className="logo-wrapper">
+            <Link to="/">
+              <img src={Logo} alt="Moogy Logo" />
+            </Link>
+          </div>
+
+          <div className="nav-links">
+            <ul>
+              <li>
+                <Link to="/">Home</Link>
+              </li>
+
+              <li>
+                <About></About>
+              </li>
+
+              <li>
+                <Tech></Tech>
+              </li>
+
+              <li>
+                <Link to="/data">Data</Link>
+              </li>
+
+              <li>
+                <Link to="/train">Help Train</Link>
+              </li>
+            </ul>
+          </div>
         </div>
-
-        <div className="nav-links">
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-
-            <li>
-              <About></About>
-            </li>
-
-            <li>
-              <Tech></Tech>
-            </li>
-
-            <li>
-              <Link to="/data">Data</Link>
-            </li>
-
-            <li>
-              <Link to="/train">Help Train</Link>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </header>
-  );
+      </header>
+    );
+  }
 }
+
+export default Header;

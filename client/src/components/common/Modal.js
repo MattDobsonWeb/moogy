@@ -27,11 +27,19 @@ export default class Modal extends Component {
     document.addEventListener('keydown', this.handleKeyPress);
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.show !== this.props.show) {
+      this.setState({ show: true });
+      document.body.classList.add('no-scroll');
+    }
+  }
+
   handleKeyPress(e) {
     const ESCAPE_KEY = 27;
     switch (e.keyCode) {
       case ESCAPE_KEY:
         this.setState({ show: false });
+        document.body.classList.remove('no-scroll');
         break;
       default:
         break;

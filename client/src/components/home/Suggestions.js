@@ -7,7 +7,11 @@ const suggestions = [
   'What do you think of Matt Dobson?',
   'Do you like football?',
   'Do you like reading?',
-  'Do you like gaming?'
+  'Do you like gaming?',
+  'Do you like Freddie Mercury?',
+  'Do you like Tom Hanks?',
+  'Do you like the Queen?',
+  'Do you like Einstein?'
 ];
 
 export default class Suggestions extends Component {
