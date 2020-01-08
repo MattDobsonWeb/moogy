@@ -27,7 +27,7 @@ class About extends Component {
       >
         <p>
           Moogy is an opinionated chatbot that builds it's responses directly
-          from user interaction. You can ask Noogy whether he likes sport, or
+          from user interaction. You can ask Moogy whether he likes sport, or
           what he thinks of Donald Trump and he will return a message that has
           been provided by users during previous conversations and ask you for
           your opinion!
