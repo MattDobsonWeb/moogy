@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import socket from '../../socket';
 
 class Chatbox extends Component {
   constructor() {
@@ -7,19 +6,17 @@ class Chatbox extends Component {
 
     this.state = {
       message: '',
-      client: socket(),
       chatHistory: []
     };
 
     this.onChange = this.onChange.bind(this);
     this.onSendMessage = this.onSendMessage.bind(this);
-    this.onMessageReceived = this.onMessageReceived.bind(this);
     this.onReplyReceived = this.onReplyReceived.bind(this);
   }
 
   componentDidMount() {
-    this.state.client.registerHandler(this.onMessageReceived);
-    this.state.client.registerReply(this.onReplyReceived);
+    this.props.client.registerHandler(this.onMessageReceived);
+    this.props.client.registerReply(this.onReplyReceived);
   }
 
   onChange(e) {
@@ -31,7 +28,7 @@ class Chatbox extends Component {
   onSendMessage(e) {
     e.preventDefault();
 
-    this.state.client.message(this.state.message);
+    this.props.client.message(this.state.message);
 
     let message = {
       sent: this.state.message,
@@ -41,13 +38,6 @@ class Chatbox extends Component {
     this.setState({
       chatHistory: [...this.state.chatHistory, message],
       message: ''
-    });
-  }
-
-  onMessageReceived(entry) {
-    console.log('onMessageReceived:', entry);
-    this.setState({
-      chatHistory: this.state.chatHistory.concat(entry.message)
     });
   }
 
@@ -66,7 +56,7 @@ class Chatbox extends Component {
 
   componentDidUpdate(prevProps) {
     if (prevProps.suggested !== this.props.suggested) {
-      this.state.client.message(this.props.suggested);
+      this.props.client.message(this.props.suggested);
 
       let message = {
         sent: this.props.suggested,

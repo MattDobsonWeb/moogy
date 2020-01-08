@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import socket from '../../socket';
 
 // import components
 import Chatbox from './Chatbox';
@@ -10,6 +11,7 @@ export default class index extends Component {
     super();
 
     this.state = {
+      client: socket(),
       suggested: ''
     };
 
@@ -25,9 +27,12 @@ export default class index extends Component {
       <>
         <div className="main-content">
           <div className="center-content">
-            <Robot></Robot>
+            <Robot client={this.state.client}></Robot>
 
-            <Chatbox suggested={this.state.suggested}></Chatbox>
+            <Chatbox
+              suggested={this.state.suggested}
+              client={this.state.client}
+            ></Chatbox>
           </div>
 
           <Suggestions onSuggestionClick={this.handleSuggestion}></Suggestions>

@@ -32,12 +32,13 @@
           justify-content: center;
           text-align: center;
           opacity: 0.6;
+
           @media (min-width: 768px) {
-            padding: 50px;
+            padding: 30px;
           }
 
           p {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
 
             &:first-child {
               margin-top: 0;

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import socket from '../../socket';
 
+// import images
 import PositiveRobot from '../../images/robot-animation.gif';
 import NegativeRobot from '../../images/angry-robot.gif';
 import NeutralRobot from '../../images/neutral-robot.gif';
@@ -10,7 +10,6 @@ export default class Robot extends Component {
     super();
 
     this.state = {
-      client: socket(),
       mood: 'positive',
       animate: false
     };
@@ -19,7 +18,7 @@ export default class Robot extends Component {
   }
 
   componentDidMount() {
-    this.state.client.registerSentiment(this.onSentimentReceived);
+    this.props.client.registerSentiment(this.onSentimentReceived);
   }
 
   onSentimentReceived(sentiment) {
