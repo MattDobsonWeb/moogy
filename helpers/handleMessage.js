@@ -249,7 +249,7 @@ const getOpinion = object => {
 
   let userMessage = '',
     sentiment = '';
-  if (positiveCount >= negativeCount && positiveCount >= neutralCount) {
+  if (positiveCount > negativeCount && positiveCount > neutralCount) {
     userMessage =
       positiveMessages[Math.floor(Math.random() * positiveMessages.length)];
     sentiment = 'positive';
@@ -267,12 +267,10 @@ const getOpinion = object => {
     sentiment = 'neutral';
   }
 
-  console.log(userMessage);
-
   return {
     message: `${checkPunctuation(userMessage)} I have ${dataCount} user ${
       dataCount > 1
-        ? `opinions on this data point, most are ${sentiment}.`
+        ? `opinions on this data point, overall opinion is ${sentiment}.`
         : `opinion on this data point, it's ${sentiment}.`
     } What do you think? Just hit ENTER to skip saving a reply.`,
     awaitingReply: true,
