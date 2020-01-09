@@ -27,9 +27,11 @@ mongoose
   .then(() => console.log('MongoDB Connected'))
   .catch(err => console.log(err));
 
+// use body parcer
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+// force HTTPS
 function requireHTTPS(req, res, next) {
   // The 'x-forwarded-proto' check is for Heroku
   if (
@@ -41,9 +43,9 @@ function requireHTTPS(req, res, next) {
   }
   next();
 }
-
 app.use(requireHTTPS);
 
+// socket connection
 io.on('connection', socket => {
   let awaitingUserResponse = false;
   let originalEntities = {};
@@ -119,6 +121,8 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
+// set port depending on environment
 const port = process.env.PORT || 5000;
 
+// server listen on port
 http.listen(port, () => console.log(`Server running on port ${port}`));

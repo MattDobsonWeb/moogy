@@ -13,7 +13,7 @@ export default function index() {
         returning a message, it instead returns the intent of the message. To
         provide a simplified explanation, if someone was to ask "Do you like
         football?" Wit.ai would tell us the intent is an <code>opinion</code>{' '}
-        and the focus is <code>football</code>. This is becuase we've trained
+        and the focus is <code>football</code>. This is because we've trained
         our Wit.ai model to detect these intents. We can then choose to do as we
         wish with this information. For this information, we would search
         Moogy's database for user messages stored on the football, we then

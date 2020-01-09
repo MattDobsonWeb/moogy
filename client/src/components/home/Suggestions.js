@@ -4,7 +4,7 @@ const fixedSuggestions = ['Hi there!', 'How are you?', 'Who are you?'];
 
 const suggestions = [
   'What do you think of Donald Trump?',
-  'What do you think of Matt Dobson?',
+  'What do you think of Boris Johnson?',
   'Do you like football?',
   'Do you like reading?',
   'Do you like gaming?',
@@ -21,7 +21,15 @@ const suggestions = [
   'Do you like chess?',
   'Do you like board games?',
   'Do you like beer?',
-  'What do you think of rock music?'
+  'What do you think of rock music?',
+  'Do you like coffee?',
+  'What is your favourite food?',
+  'What is your favourite hobby?',
+  'Do you like music?',
+  'Do you like to dance?',
+  'What is your favourite car?',
+  'What is your favourite takeaway?',
+  'What is your favourite drink?'
 ];
 
 const shuffle = array => {

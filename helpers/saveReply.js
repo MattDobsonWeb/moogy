@@ -119,7 +119,7 @@ module.exports = function saveReply({ entities }, witData, data) {
           return data({
             success: true,
             message: "Thanks for your opinion, I've saved it to my database.",
-            sentiment: sentiment
+            sentiment: 'positive'
           });
         });
       } else {
@@ -132,7 +132,7 @@ module.exports = function saveReply({ entities }, witData, data) {
           return data({
             success: true,
             message: "Thanks for your opinion, I've saved it to my database.",
-            sentiment: sentiment
+            sentiment: 'positive'
           });
         });
       }

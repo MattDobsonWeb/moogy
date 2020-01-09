@@ -10,10 +10,12 @@ module.exports = function handleMessage({ entities }, data) {
   let intent, message;
   let awaitingReply = false;
 
+  // get sentiment
   if (entities.sentiment) {
     sentiment = entities.sentiment[0].value;
   }
 
+  // get intents
   if (entities.intent) {
     intent = getIntent(entities);
   }
@@ -137,6 +139,7 @@ module.exports = function handleMessage({ entities }, data) {
         }
 
         if (inanimate) {
+          // grab the relevant opinion
           const opinion = getOpinion(inanimate);
 
           return data({
@@ -147,6 +150,7 @@ module.exports = function handleMessage({ entities }, data) {
         }
       });
     } else {
+      // provide a default reply if no message is available
       message = defaultReply(sentiment);
       data({ message, awaitingReply, sentiment });
     }
@@ -169,7 +173,7 @@ module.exports = function handleMessage({ entities }, data) {
             message:
               "I don't currently have an opinion on this, what's your opinion? Just hit ENTER to skip saving a reply.",
             awaitingReply: true,
-            sentiment: 'neutral'
+            sentiment: 'positive'
           });
         }
 
@@ -188,12 +192,14 @@ module.exports = function handleMessage({ entities }, data) {
       }
     );
   } else {
+    // provide a default reply if no message is available
     message = defaultReply(sentiment);
     data({ message, awaitingReply, sentiment });
   }
 };
 
 const defaultReply = sentiment => {
+  // provide a default reply if no message is available
   if (sentiment === 'positive') {
     return "I'm glad your so positive! If you're happy, I'm happy!";
   } else if (sentiment === 'negative') {
